@@ -7,7 +7,8 @@ load_dotenv()  # Load environment variables from .env file
 
 llm = HuggingFaceEndpoint(
     model="Qwen/Qwen2.5-7B-Instruct",
-    provider="together",  # try "together", "novita", or "fireworks-ai" — whichever shows as available on the model page
+    provider="together",
+    task="text-generation"  # try "together", "novita", or "fireworks-ai" — whichever shows as available on the model page
 )
 
 chatModel=ChatHuggingFace(llm=llm)
