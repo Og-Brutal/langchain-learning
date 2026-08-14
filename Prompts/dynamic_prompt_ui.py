@@ -16,6 +16,10 @@ llm=ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite", temperature=0.7)
 
 template = load_prompt("dynamic_prompts/first_dynamic_prompt.json")
 if st.button('Summarize'):
-    prompt=template.invoke({"paper_input": paper_input, "style_input": style_input, "length_input": length_input})
-    result=llm.invoke(prompt)
-    st.write("Summary : \n\n", result.content[0]["text"])
+   chain= template | llm
+   result=chain.invoke({
+         "paper_input": paper_input,
+         "style_input": style_input,
+         "length_input": length_input
+   })
+   st.write("Summary : \n\n", result.content[0]["text"])
