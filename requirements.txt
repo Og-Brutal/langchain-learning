@@ -27,3 +27,5 @@ scikit-learn
 torch
 
 langchain-groq
+
+streamlit
