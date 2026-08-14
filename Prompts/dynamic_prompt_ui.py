@@ -1,8 +1,7 @@
 
 import streamlit as st
 from langchain_core.prompts import PromptTemplate
-from langchain_groq import ChatGroq
-
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 st.header('Research Tool')
@@ -13,7 +12,7 @@ style_input = st.selectbox( "Select Explanation Style", ["Beginner-Friendly", "T
 
 length_input = st.selectbox( "Select Explanation Length", ["Short (1-2 paragraphs)", "Medium (3-5 paragraphs)", "Long (detailed explanation)"] )
 
-llm=ChatGroq(model="llama-3.3-70b-versatile", temperature=0.7)
+llm=ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite", temperature=0.7)
 
 template = PromptTemplate(
     template="""
@@ -38,4 +37,4 @@ template = PromptTemplate(
 if st.button('Summarize'):
     prompt=template.invoke({"paper_input": paper_input, "style_input": style_input, "length_input": length_input})
     result=llm.invoke(prompt)
-    st.write("Summary : \n\n", result.content)
+    st.write("Summary : \n\n", result.content[0]["text"])
