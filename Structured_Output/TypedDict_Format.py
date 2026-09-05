@@ -45,3 +45,8 @@ print("Sentiment: \n\n", result["sentiment"])
 print("Key Themes: \n\n", result["key_themes"])
 print("Pros: \n\n", result["pros"])
 print("Cons: \n\n", result["cons"])
+
+
+#you can tell the llm expected format of output using three  two methods
+#1. if the llm have native function to give structured output then use that function like in this case we used with_structured_output function of llm
+#2. if the llm does not have native function to give structured output then you can use the prompt template to tell the llm expected format of output and then parse the output using pydantic or any other library to validate the output format.
