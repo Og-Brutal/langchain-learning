@@ -7,3 +7,38 @@ Three are three ways to define a schema of output from llm
    for it llm output will come in and break everything.
 2. use json format when you working with multiple languages becuase json is universal, there is no runtime validation as pydantic.
 3. use the pydantic for runtime validation.
+
+
+with_structured_output() has another argument called method, which specifies how LangChain should ask the LLM to produce the expected structured output.
+
+First, we define a schema, for example using Pydantic:
+
+class Review(BaseModel):
+    summary: str
+    sentiment: str
+
+Then we pass the Pydantic class to with_structured_output():
+
+llm.with_structured_output(Review)
+
+This tells LangChain what structure we want — in this case, a Review containing summary and sentiment.
+
+We can also specify a method that tells LangChain how to obtain that structure from the LLM. For example:
+
+method="json_mode"
+
+In JSON mode, LangChain asks the LLM to produce its response in JSON format.
+
+Or:
+
+method="function_calling"
+
+With function calling, LangChain converts the schema into a tool/function-like description and provides it to the LLM. The LLM then returns structured tool-call arguments that follow that schema.
+
+After receiving the response, LangChain parses the structured result into the appropriate output representation. For example, with a Pydantic schema, the result can be a Pydantic object; with a TypedDict, it is dictionary-shaped data.
+
+So, in simple words:
+
+Schema = WHAT output I want
+Method = HOW I want the LLM to produce it
+Parsing = HOW LangChain converts the LLM's response into the expected result
