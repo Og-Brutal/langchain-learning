@@ -29,3 +29,5 @@ torch
 langchain-groq
 
 streamlit
+
+pydantic
