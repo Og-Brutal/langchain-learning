@@ -1,0 +1,8 @@
+
+
+Three are three ways to define a schema of output from llm 
+
+1. use typed dict it is a good method but in this method there is an issue that you only telling llm the typed
+   of this field should be integer but if by mistake llm send string instead of integer then there is no validatoin
+   for it llm output will come in and break everything.
+2. use pydantic 
