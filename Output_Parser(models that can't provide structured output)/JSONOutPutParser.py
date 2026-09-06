@@ -22,6 +22,8 @@ template = PromptTemplate(
 
 parser = JsonOutputParser()
 chain= template | llm | parser
+
+
 result = chain.invoke({"review": """
             I recently upgraded to the Samsung Galaxy S24 Ultra, and I must say, it’s an absolute powerhouse! The Snapdragon 8 Gen 3 processor makes everything lightning fast—whether I’m gaming, multitasking, or editing photos. The 5000mAh battery easily lasts a full day even with heavy use, and the 45W fast charging is a lifesaver.
              
@@ -41,6 +43,9 @@ result = chain.invoke({"review": """
              Expensive compared to competitors
 """})
 print("Structured Output : \n\n",result)
+
+# if you do not have dynamic input in template then if you call invoke then you still have to pass a empty dictionary as input to invoke method otherwise it will throw error.
+
  
 
 
