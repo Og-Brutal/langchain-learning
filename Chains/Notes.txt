@@ -57,3 +57,44 @@ Parallel_Chain = RunnableParallel({
 #       input = {that_one_variable: input}     # auto-wraps your string!
 #
 # So passing "Black Hole" auto-becomes {"Topic": "Black Hole"} internally.
+
+
+# ═══════════════════════════════════════════════════
+# ⚙️ CONCEPT: __or__ and __ror__ (why | works in chains)
+# ═══════════════════════════════════════════════════
+
+# 🔑 PURPOSE:
+# __or__ / __ror__ let the "|" operator mean:
+#     "connect these two steps into a pipeline (RunnableSequence)"
+
+# ✅ __or__(self, other)
+#    - triggered when YOUR object is on the LEFT:  self | other
+#    - builds RunnableSequence(self, other)
+
+# ✅ __ror__(self, other)
+#    - triggered when YOUR object is on the RIGHT, and the left
+#      side has no usable __or__:  other | self
+#    - builds RunnableSequence(other, self)
+
+# 🔎 LOOKUP ORDER for "a | b":
+#    1. Try a.__or__(b) first
+#    2. If a has no __or__ (or it fails) → fallback to b.__ror__(a)
+#    3. If neither works → TypeError
+
+# 💡 WHY LANGCHAIN NEEDS __ror__ SPECIFICALLY:
+# Plain Python functions (like GetTopic1) have NO __or__ defined.
+# So:  GetTopic1 | prompt1
+#   → Python tries GetTopic1.__or__(prompt1)  → fails, functions don't have it
+#   → falls back to prompt1.__ror__(GetTopic1)  → SUCCESS
+#   → builds RunnableSequence(RunnableLambda(GetTopic1), prompt1)
+
+# ⚡ COERCION (a side-task inside __or__/__ror__, not their main job):
+# While building the RunnableSequence, LangChain checks each side:
+#   - already a Runnable?      → use as-is
+#   - plain function/dict?     → auto-wrap (usually via RunnableLambda)
+
+# 🔑 ONE-LINER:
+# __or__/__ror__ make "prompt | llm | parser" actually build a
+# working RunnableSequence — __or__ handles it when your object is
+# on the LEFT, __ror__ handles it when your object is on the RIGHT
+# and the left side (often a plain function) can't do it itself.
