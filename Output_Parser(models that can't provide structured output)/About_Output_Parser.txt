@@ -7,4 +7,5 @@ There are four output parser that we will learn in langchain
    parser help us to make a long chain  preventinh from miltiple small chains 
 
 2. second is jsonoutputparser in it if you want to use a model which return the object like AIMessage then apply parser.invoke(result) to parse json object but 
-   if you are using a model which return the raw string then call parser.parse(result) 
+   if you are using a model which return the raw string then call parser.parse(result).
+   JSON output parser does not enforce a schema strcuture for output even you mention in prompt it is not gurrentied that output will contain same strcuture.
