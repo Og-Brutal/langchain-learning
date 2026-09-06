@@ -1,0 +1,59 @@
+# ═══════════════════════════════════════════════════
+# 🗒️ STICKY NOTE: Different Input Per Branch (RunnableParallel)
+# ═══════════════════════════════════════════════════
+
+# ✅ METHOD 1: RunnableLambda
+from langchain_core.runnables import RunnableLambda
+
+Parallel_Chain = RunnableParallel({
+    "Notes": RunnableLambda(lambda x: {"Topic": x["Topic1"]}) | prompt1 | llm1 | parser,
+    "Quiz":  RunnableLambda(lambda x: {"Topic": x["Topic2"]}) | prompt2 | llm2 | parser
+})
+
+# ✅ METHOD 2: Custom Function (auto-wrapped by LCEL, no need to call RunnableLambda)
+def get_topic1(x):
+    return {"Topic": x["Topic1"]}
+
+def get_topic2(x):
+    return {"Topic": x["Topic2"]}
+
+Parallel_Chain = RunnableParallel({
+    "Notes": get_topic1 | prompt1 | llm1 | parser,
+    "Quiz":  get_topic2 | prompt2 | llm2 | parser
+})
+
+# ▶️ INVOKE (same for both methods) — pass ALL inputs together
+result = Parallel_Chain.invoke({
+    "Topic1": "Black Hole",
+    "Topic2": "Wormhole"
+})
+
+# 🔑 KEY IDEA:
+# - RunnableParallel sends the SAME full input dict to every branch.
+# - Lambda/function runs FIRST inside each branch, plucking out 
+#   only what THAT branch needs, then reshaping it for the prompt.
+
+
+# ═══════════════════════════════════════════════════
+# ⚡ BONUS: Function Can Return a STRING instead of a dict
+#    (only works if the prompt has ONE input_variable!)
+# ═══════════════════════════════════════════════════
+
+def GetTopic1(dic_of_Topics):
+    return dic_of_Topics["Topic1"]   # returns a plain STRING, not a dict
+
+prompt1 = PromptTemplate(
+    template="Give short notes on {Topic}.",
+    input_variables=["Topic"]        # 👈 only ONE variable
+)
+
+Parallel_Chain = RunnableParallel({
+    "Notes_For_Topic1": GetTopic1 | prompt1 | llm1 | parser,
+})
+
+# 🔑 WHY THIS WORKS:
+# PromptTemplate has an auto-wrap rule:
+#   if input is NOT a dict AND len(input_variables) == 1:
+#       input = {that_one_variable: input}     # auto-wraps your string!
+#
+# So passing "Black Hole" auto-becomes {"Topic": "Black Hole"} internally.
