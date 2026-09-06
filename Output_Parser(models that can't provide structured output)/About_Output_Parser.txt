@@ -9,3 +9,6 @@ There are four output parser that we will learn in langchain
 2. second is jsonoutputparser in it if you want to use a model which return the object like AIMessage then apply parser.invoke(result) to parse json object but 
    if you are using a model which return the raw string then call parser.parse(result).
    JSON output parser does not enforce a schema strcuture for output even you mention in prompt it is not gurrentied that output will contain same strcuture.
+
+3. third one is Structured output parser it is used to enforce a schema on output of llm but in it we can not enforce a complex schema and also we can not apply 
+   data validation.
