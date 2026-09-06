@@ -20,4 +20,6 @@ There are four output parser that we will learn in langchain
       Confirmed + refined: Correct — it only checks two things: (1) is the output valid JSON, and (2) do the keys match your ResponseSchema names exactly. If JSON is invalid or a key is missing/misnamed, it throws OutputParserException and your chain crashes. But if the JSON shape matches, it accepts any garbage value inside those keys (e.g., sentiment: "purple") with zero complaints — because it has no concept of valid values, only valid keys.
 
       Key takeaway: For real value/type validation (e.g., forcing sentiment to only be "positive/negative/neutral"), you need PydanticOutputParser instead — that's the tool that actually validates data, not just structure.
+
+      StructuredOutputParser and ResponseSchema don't exist in LangChain v1.0+'s main package anymore — you need either langchain-classic (from langchain_classic.output_parsers import ...) or a pre-1.0 version (pip install "langchain<1.0") to use them.
    }
