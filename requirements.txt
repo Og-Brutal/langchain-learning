@@ -32,3 +32,5 @@ langchain-groq
 streamlit
 
 pydantic
+
+grandalf #for printing graph of chains
