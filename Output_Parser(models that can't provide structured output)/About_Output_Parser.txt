@@ -1,0 +1,10 @@
+There are four output parser that we will learn in langchain 
+
+
+1. first one is stroutputparser it is mostly used with chains becuase its only work is to exrtact the content string from large output of llm
+   so in chain like (chain =template1  | llm  | parser  | template2 | llm  |parser ) if we do not use the parser then we have to break this chain 
+   into two parts when first output of models comes we manually parse the content string pass to next chain for now parser is doing this for us 
+   parser help us to make a long chain  preventinh from miltiple small chains 
+
+2. second is jsonoutputparser in it if you want to use a model which return the object like AIMessage then apply parser.invoke(result) to parse json object but 
+   if you are using a model which return the raw string then call parser.parse(result) 
