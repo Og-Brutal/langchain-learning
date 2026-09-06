@@ -23,3 +23,5 @@ There are four output parser that we will learn in langchain
 
       StructuredOutputParser and ResponseSchema don't exist in LangChain v1.0+'s main package anymore — you need either langchain-classic (from langchain_classic.output_parsers import ...) or a pre-1.0 version (pip install "langchain<1.0") to use them.
    }
+
+4. last one is PydanticOutputParser which enforce schema also with data validation. 
