@@ -24,3 +24,5 @@ chain = prompt | llm | parser
 result= chain.invoke({"Topic":"Python programming language"})
 
 print("Unstructured Output : \n",result)
+
+chain.get_graph().print_ascii()
