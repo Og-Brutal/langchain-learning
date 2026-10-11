@@ -22,4 +22,4 @@ if st.button('Summarize'):
          "style_input": style_input,
          "length_input": length_input
    })
-   st.write("Summary : \n\n", result.content[0]["text"])
+   st.write("Summary : \n\n", result.text)
