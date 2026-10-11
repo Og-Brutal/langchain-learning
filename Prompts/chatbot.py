@@ -17,7 +17,7 @@ while True:
         break
     history.append(HumanMessage(content=user_input))
     result=llm.invoke(history)
-    history.append(AIMessage(content=result.content[0]['text']))
-    print("AI: ", result.content[0]['text'])
+    history.append(AIMessage(content=result.text))
+    print("AI: ", result.text)
 
 print("History after interaction:", history)
