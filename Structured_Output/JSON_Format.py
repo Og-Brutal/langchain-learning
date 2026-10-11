@@ -1,4 +1,4 @@
-# if i inherit from typed dict then i can use the class object as dictionary and used for validating format
+
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
