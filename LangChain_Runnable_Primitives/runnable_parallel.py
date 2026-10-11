@@ -22,8 +22,8 @@ prompt2=PromptTemplate(
 parser=StrOutputParser()
 
 Parallel_Chain=RunnableParallel({
-    "Tweet": RunnableSequence(prompt1,llm,parser),
-    "Linkedin":RunnableSequence(prompt2,llm,parser)
+    "Tweet": prompt1 | llm | parser,
+    "Linkedin": prompt2 | llm | parser
 })
 
 result=Parallel_Chain.invoke({"Topic": "AI"})
