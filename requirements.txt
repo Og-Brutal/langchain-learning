@@ -34,3 +34,6 @@ streamlit
 pydantic
 
 grandalf #for printing graph of chains
+
+langchain-community
+langchain-experimental
